@@ -5,11 +5,11 @@
 BayesDesOpt is a framework to automate robot design, based on Bayesian Optimization.
 The purpose is to facilitate the process of finding optimal design parameters for robots.
 
-This work assumes that a robot structure is defined by DH parameters |*d*| $&theta$| *a*| $\alpha$| and
+This work assumes that a robot structure is defined by DH parameters | *d* | *θ* | *a* | *α* | and
 the user can choose among many different parameters to optimize for such as:
 - link lenghts *a*;
 - link offsets *d*;
-- joint angular offsets *$\theta$*,*$\alpha$*;
+- joint angular offsets *θ*, *α*;
 - joint types (prismatic or revolute).
 
 Currently, the framework deals only with serial link manipulators. Yet, any robotic structure can be added by modifying
