@@ -5,10 +5,14 @@ excite_freq_vect = 0:2:8;
 
 if dual_arm_copy == true
     N_Robots = 1;
-    dist_vect = 1;
+    dist_vect = Robots{2}.m_T_init(1:3,4);
 else
     N_Robots = length(Robots);
+    if N_Robots > 1
     dist_vect = Robots{2}.m_T_init(1:3,4);
+    else
+       dist_vect = 1; 
+    end
 end
 
 for n_rob = 1:N_Robots
