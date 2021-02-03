@@ -11,7 +11,7 @@ else
     if N_Robots > 1
     dist_vect = Robots{2}.m_T_init(1:3,4);
     else
-       dist_vect = 1; 
+       dist_vect = [1;0,0]; 
     end
 end
 
