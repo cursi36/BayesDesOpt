@@ -5,8 +5,10 @@ excite_freq_vect = 0:2:8;
 
 if dual_arm_copy == true
     N_Robots = 1;
+    dist_vect = 1;
 else
     N_Robots = length(Robots);
+    dist_vect = Robots{2}.m_T_init(1:3,4);
 end
 
 for n_rob = 1:N_Robots
@@ -40,6 +42,8 @@ for n_rob = 1:N_Robots
             
             P_i(:,iter)=Pose(1:3,4);
             
+            P_proj_i(iter) = P_i(:,iter)'*dist_vect/norm(dist_vect);
+            
             iter = iter+1;
             
         end
@@ -49,12 +53,21 @@ for n_rob = 1:N_Robots
     P{n_rob} = P_i;
     Mr{n_rob} = Mr_i;
     
-    reaches(n_rob) = max(vecnorm(P{n_rob}));
+%     P_base = Robots{n_rob}.m_T_init(1:3,1:3)'*P_i-Robots{n_rob}.m_T_init(1:3,4); %distance from base
+    
+    if n_rob == 1
+    reaches(n_rob) = max(P_proj_i);
+    elseif n_rob == 2
+        
+        P_proj_i = P_proj_i-norm(dist_vect);
+        reaches(n_rob) = abs(min(P_proj_i));
+    end
 end
 
 if dual_arm_copy == true
     P{2} = Robots{2}.m_T_init(1:3,1:3)*P{1}+Robots{2}.m_T_init(1:3,4);
     Mr{2} = Mr{1};
+    
     reaches(2) = reaches(1);
 end
 
