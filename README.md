@@ -15,6 +15,14 @@ the user can choose among many different parameters to optimize for such as:
 Currently, the framework deals only with serial link manipulators. Yet, any robotic structure can be added by modifying
 the forward kinematics method in `Robot_class.m` .
 
+## How to run BayesDesOpt
+The folder *examples/* contains `BayesdesOpt.m` which is the main function to run the design optimizaton problem.
+It loads a configuration file in .xml format where the user can set the variables to optimize for.
+Some exemplary configuration files can be found *examples/Data*.
+`BayesdesOpt.m` calls `readSolverConfig.m`, which loads and parses the configuration file, and `setOptimizationvariables.m` to set the variables to optimize for, based on the user's choice.
+
+Different option for Baysian Optimization can be chosen by the user directly in `BayesdesOpt.m`.
+
 ## Cost Function
 
 The framework is meant to find the optimal parameters that maximize the volume of the dexterous workspace (WS).
@@ -27,11 +35,6 @@ The optimization variables include the disnace of the bases of the two arms and 
 
 In the optimization of the dual arms we also take into account a **Safety Measure** that penalizes those designs for which the distance between the two robots is too small
 and may lead to high risk of collisions between the two arms.
-
-## Files
-
-
-
 
 ## Greetings
 
