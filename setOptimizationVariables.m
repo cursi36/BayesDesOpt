@@ -13,7 +13,7 @@ distance_name = "dist_";
 optVars = [];
 Indexes{1}.dual_arm_copy = dual_arm_copy;
 if dual_arm_copy == true
-    
+        
     Joint_name = "Joint_1_";
     
     %only take info for one arm. The other is just a copy.
@@ -29,12 +29,9 @@ if dual_arm_copy == true
         name = LL_name+num2str(idx);
         bounds = LinkLength_info.d_bounds{i};
         
-        %         optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+        optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
         
-        optVar_i.name = char(name);
-        optVar_i.bounds = bounds;
-        
-        optVars = [optVars,{optVar_i}];
+        optVars = [optVars,optVar_i];
         
     end
     
@@ -47,18 +44,15 @@ if dual_arm_copy == true
         name = LL_name+num2str(idx);
         bounds = LinkLength_info.a_bounds{i};
         
-        %         optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+        optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
         
-        optVar_i.name = char(name);
-        optVar_i.bounds = bounds;
-        
-        optVars = [optVars,{optVar_i}];
+        optVars = [optVars,optVar_i];
         
     end
     
     %Set joint type opt variables
     JointType_optInfo = JointType_optInfos{1};
-    
+      
     %%%thetas
     Indexes{1}.thetas = JointType_optInfo.thetas_idx;
     theta_name = "theta_1_";
@@ -68,16 +62,13 @@ if dual_arm_copy == true
         name = theta_name+num2str(idx);
         bounds = JointType_optInfo.thetas_bounds{i};
         
-        %         optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+        optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
         
-        optVar_i.name = char(name);
-        optVar_i.bounds = bounds;
-        
-        optVars = [optVars,{optVar_i}];
+        optVars = [optVars,optVar_i];
         
     end
     
-    %%%alphas
+        %%%alphas
     Indexes{1}.alphas = JointType_optInfo.alphas_idx;
     alpha_name = "alpha_1_";
     for i = 1:length(JointType_optInfo.alphas_idx)
@@ -86,15 +77,12 @@ if dual_arm_copy == true
         name = alpha_name+num2str(idx);
         bounds = JointType_optInfo.alphas_bounds{i};
         
-        %         optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+        optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
         
-        optVar_i.name = char(name);
-        optVar_i.bounds = bounds;
-        
-        optVars = [optVars,{optVar_i}];
+        optVars = [optVars,optVar_i];
         
     end
-    %joints types
+     %joints types
     Indexes{1}.joints = JointType_optInfo.idx;
     
     for i = 1:length(JointType_optInfo.idx)
@@ -103,32 +91,18 @@ if dual_arm_copy == true
         name = Joint_name+num2str(idx);
         bounds = JointType_optInfo.bounds{i};
         
-            bounds_int = zeros(1,2);
-            for ib = 1:2
-                
-                if bounds{ib} == 'p'
-                    bounds_int(ib) = 1;
-                elseif bounds{ib} == 'r'
-                    bounds_int(ib) = 0;
-                end
-                
-            end
-            
-            %             optVar_i = optimizableVariable(char(name),bounds,'Type','categorical');
-            
-            optVar_i.name = char(name);
-            optVar_i.bounds = sort(bounds_int);
-            
-            optVars = [optVars,{optVar_i}];
+        optVar_i = optimizableVariable(char(name),bounds,'Type','categorical');
+        
+        optVars = [optVars,optVar_i];
         
     end
     
     Indexes{1}.jointlimits.p = cell2mat(JointType_optInfo.jointlimits.p);
     Indexes{1}.jointlimits.r = cell2mat(JointType_optInfo.jointlimits.r);
     
-    Indexes{1}.jointlimits.p = reshape(Indexes{1}.jointlimits.p,2,length(JointType_optInfo.idx))';
-    Indexes{1}.jointlimits.r = reshape(Indexes{1}.jointlimits.r,2,length(JointType_optInfo.idx))';
-    
+        Indexes{1}.jointlimits.p = reshape(Indexes{1}.jointlimits.p,2,length(JointType_optInfo.idx))';
+     Indexes{1}.jointlimits.r = reshape(Indexes{1}.jointlimits.r,2,length(JointType_optInfo.idx))';
+       
     
 else
     
@@ -146,12 +120,9 @@ else
             name = LL_name+num2str(idx);
             bounds = LinkLength_info.d_bounds{i};
             
-            %             optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+            optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
             
-            optVar_i.name = char(name);
-            optVar_i.bounds = bounds;
-            
-            optVars = [optVars,{optVar_i}];
+            optVars = [optVars,optVar_i];
             
         end
         
@@ -163,87 +134,64 @@ else
             name = LL_name+num2str(idx);
             bounds = LinkLength_info.a_bounds{i};
             
-            %             optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+            optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
             
-            optVar_i.name = char(name);
-            optVar_i.bounds = bounds;
-            
-            optVars = [optVars,{optVar_i}];
+            optVars = [optVars,optVar_i];
             
         end
         
         %Set joint type opt variables
         JointType_optInfo = JointType_optInfos{n_Robots};
         
-        %%%thetas
-        Indexes{n_Robots}.thetas = JointType_optInfo.thetas_idx;
-        theta_name = "theta_"+num2str(n_Robots)+"_";
-        for i = 1:length(JointType_optInfo.thetas_idx)
-            
-            idx = JointType_optInfo.thetas_idx(i);
-            name = theta_name+num2str(idx);
-            bounds = JointType_optInfo.thetas_bounds{i};
-            
-            %         optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
-            
-            optVar_i.name = char(name);
-            optVar_i.bounds = bounds;
-            
-            optVars = [optVars,{optVar_i}];
-            
-        end
+            %%%thetas
+    Indexes{n_Robots}.thetas = JointType_optInfo.thetas_idx;
+    theta_name = "theta_"+num2str(n_Robots)+"_";
+    for i = 1:length(JointType_optInfo.thetas_idx)
         
+        idx = JointType_optInfo.thetas_idx(i);
+        name = theta_name+num2str(idx);
+        bounds = JointType_optInfo.thetas_bounds{i};
+        
+        optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+        
+        optVars = [optVars,optVar_i];
+        
+    end
+    
         %%%alphas
-        Indexes{n_Robots}.alphas = JointType_optInfo.alphas_idx;
-        alpha_name = "alpha_"+num2str(n_Robots)+"_";
-        for i = 1:length(JointType_optInfo.alphas_idx)
-            
-            idx = JointType_optInfo.alphas_idx(i);
-            name = alpha_name+num2str(idx);
-            bounds = JointType_optInfo.alphas_bounds{i};
-            
-            %         optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
-            
-            optVar_i.name = char(name);
-            optVar_i.bounds = bounds;
-            
-            optVars = [optVars,{optVar_i}];
-            
-        end
+    Indexes{n_Robots}.alphas = JointType_optInfo.alphas_idx;
+    alpha_name = "alpha_"+num2str(n_Robots)+"_";
+    for i = 1:length(JointType_optInfo.alphas_idx)
         
-        %joints types
-        Indexes{n_Robots}.joints = JointType_optInfo.idx;
+        idx = JointType_optInfo.alphas_idx(i);
+        name = alpha_name+num2str(idx);
+        bounds = JointType_optInfo.alphas_bounds{i};
+        
+        optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+        
+        optVars = [optVars,optVar_i];
+        
+    end
+    
+    %joints types
+    Indexes{n_Robots}.joints = JointType_optInfo.idx;
         for i = 1:length(JointType_optInfo.idx)
             
             idx = JointType_optInfo.idx(i);
             name = Joint_name+num2str(idx);
             bounds = JointType_optInfo.bounds{i};
             
-            bounds_int = zeros(1,2);
-            for ib = 1:2
-                
-                if bounds{ib} == 'p'
-                    bounds_int(ib) = 1;
-                elseif bounds{ib} == 'r'
-                    bounds_int(ib) = 0;
-                end
-                
-            end
+            optVar_i = optimizableVariable(char(name),bounds,'Type','categorical');
             
-            %             optVar_i = optimizableVariable(char(name),bounds,'Type','categorical');
-            
-            optVar_i.name = char(name);
-            optVar_i.bounds = sort(bounds_int);
-            
-            optVars = [optVars,{optVar_i}];
+            optVars = [optVars,optVar_i];
             
         end
         
-        Indexes{n_Robots}.jointlimits.p = cell2mat(JointType_optInfo.jointlimits.p);
-        Indexes{n_Robots}.jointlimits.r = cell2mat(JointType_optInfo.jointlimits.r);
-        
-        Indexes{n_Robots}.jointlimits.p = reshape(Indexes{n_Robots}.jointlimits.p,2,length(JointType_optInfo.idx))';
-        Indexes{n_Robots}.jointlimits.r = reshape(Indexes{n_Robots}.jointlimits.r,2,length(JointType_optInfo.idx))';
+            Indexes{n_Robots}.jointlimits.p = cell2mat(JointType_optInfo.jointlimits.p);
+    Indexes{n_Robots}.jointlimits.r = cell2mat(JointType_optInfo.jointlimits.r);
+    
+    Indexes{n_Robots}.jointlimits.p = reshape(Indexes{n_Robots}.jointlimits.p,2,length(JointType_optInfo.idx))';
+     Indexes{n_Robots}.jointlimits.r = reshape(Indexes{n_Robots}.jointlimits.r,2,length(JointType_optInfo.idx))';
         
     end
     
@@ -252,7 +200,6 @@ else
 end
 %Set distance opt variables
 dir = 'xyz';
-if ~isempty(Distance_optInfo)
 Indexes{2}.dist = Distance_optInfo.idx;
 for i = 1:length(Distance_optInfo.idx)
     
@@ -260,13 +207,10 @@ for i = 1:length(Distance_optInfo.idx)
     name = distance_name+num2str(dir(idx));
     bounds = Distance_optInfo.bounds{i};
     
-    %     optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
+    optVar_i = optimizableVariable(char(name),bounds,'Type','integer');
     
-    optVar_i.name = char(name);
-    optVar_i.bounds = bounds;
-    
-    optVars = [optVars,{optVar_i}];
+    optVars = [optVars,optVar_i];
     
 end
-end
+
 end

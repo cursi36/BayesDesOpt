@@ -11,7 +11,7 @@ else
     N_robots = length(Robots);
 end
 
-optVars_cell = optVars;
+optVars_cell = table2cell(optVars);
 robot_i_numOpts = 0;
 
 for i = 1:N_robots
@@ -30,16 +30,16 @@ for i = 1:N_robots
     n_alphas = length(alpha_idx);
     n_js = length(joints_idx);
     
-    opt_ds = optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_ds);
+    opt_ds = cell2mat(optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_ds));
     robot_i_numOpts = robot_i_numOpts+n_ds;
     
-    opt_as = optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_as);
+    opt_as = cell2mat(optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_as));
     robot_i_numOpts = robot_i_numOpts+n_as;
     
-    opt_thetas = optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_thetas)*pi/180;
+    opt_thetas = cell2mat(optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_thetas))*pi/180;
     robot_i_numOpts = robot_i_numOpts+n_thetas;
     
-    opt_alphas = optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_alphas)*pi/180;
+    opt_alphas = cell2mat(optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_alphas))*pi/180;
     robot_i_numOpts = robot_i_numOpts+n_alphas;
     
     opt_joints = optVars_cell(robot_i_numOpts+1:robot_i_numOpts+n_js);
@@ -60,14 +60,15 @@ for i = 1:N_robots
     %update joint types and its limits
     for jt = 1:length(opt_joints)
         jt_idx = joints_idx(jt);
-        type = opt_joints(jt);        
-        if type == 1
-             Robots{i}.m_type(jt_idx) = 'p';
+        type = char(opt_joints{jt});
+        Robots{i}.m_type(jt_idx) = type;
+        
+        if type == 'p'
             
         Robots{i}.m_joint_limits(jt_idx,:) = p_jointlimits(jt,:);
             
         else
-            Robots{i}.m_type(jt_idx) = 'r';
+            
             Robots{i}.m_joint_limits(jt_idx,:) = r_jointlimits(jt,:)*pi/180;
         end
         
@@ -76,15 +77,13 @@ for i = 1:N_robots
 end
 
 if dual_arm_copy == true
-    T_init =  Robots{2}.m_T_init;
     Robots{2} = Robots{1};
-    Robots{2}.m_T_init = T_init;
 end
 
 %adapt initial pose of second robot
 if length(Robots) > 1
 dist_idx = Indexes{2}.dist;
-opt_dist = optVars_cell(robot_i_numOpts+1:end);
+opt_dist = cell2mat(optVars_cell(robot_i_numOpts+1:end));
 Robots{2}.m_T_init(dist_idx,4) = opt_dist;
 end
 end

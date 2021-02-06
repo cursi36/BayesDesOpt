@@ -28,29 +28,10 @@ The optimization variables include the disnace of the bases of the two arms and 
 In the optimization of the dual arms we also take into account a **Safety Measure** that penalizes those designs for which the distance between the two robots is too small
 and may lead to high risk of collisions between the two arms.
 
-Any other cost function can however be implemented by adapting the `getCostFunction.m` function.
-
-## How to run BayesDesOpt
-The folder *examples/* contains a file called `BayesDesOpt_run.m` whcih is the main file to run the design optimization problem.
-The user needs to specify what parameters to optimize for in an .xml file. Some exemplary files can be found in *examples/Data/*.
-
-The configuration .xml file is loaded and parsed in `BayesDesOpt_run.m` which sets the optimization variables accordingly to those specified in the .xml file.
-The user can change some options for the Bayesian Optimization directly in `BayesDesOpt_run.m`.
-
-For a more detailed explanation, please refer to `Instructions.pdf`
-
 ## Files
-The folder contains the following files:
-- `generateRobots.m` i used to build the robot structure given the DH parameters;
-- `generateWS.m` generates the workspace of the robot;
-- `getCostFunction.m` computes the desired cost function to minimize;
-- `getDualArmDexterity.m` is an auxiliary function to compute the dual-arm dexterity as described in "Dual redundant arm configuration optimization with task-oriented dual arm manipulability", Lee et al;
-- `getIntersectionVolume.m` is used in the dual-arm configuration to get the common dexterous WS;
-- `IntializeRobots.m` just builds an intial robot model;
-- `Mycombvec.m` is an auxiliary function to compute the combination of different vectors. It is used in the WS generation;
-- `readSolverConfig.m` is a function to read the .xml files of user-specifi options to use;
-- `RobotClass.m` is a class to compute the kinematics of the robot model;
-- `setOptimizationVariables.m` is an auxiliary function to set the variables to optimize for.
+
+
+
 
 ## Greetings
 
